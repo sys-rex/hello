@@ -62,6 +62,20 @@ jobs:
     #     tags: ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} #tamopsgithubacr.azurecr.io/aspcoresample:${{ github.sha }}
     #     file: Dockerfile
     #     #${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+    - name: Update values.yaml
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'manifests/ndeploy.yml'
+        #propertyPath: 'file.version'
+        propertyPath: 'spec.template.spec.containers[0].image'
+        value: ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+        #value: ${{ env.TAG }}
+        # commitChange: true
+        branch: main
+        targetBranch: main
+        # masterBranchName: uat
+
     - run: |
            docker images
            docker ps

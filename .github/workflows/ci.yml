@@ -2,7 +2,7 @@
 name: docker_build_push_acr
 on:
   workflow_dispatch:
-  path:
+  push:
     branch: [ "main" ]
 env:
   IMAGE_NAME: pyhello

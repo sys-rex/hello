@@ -65,5 +65,5 @@ jobs:
     - run: |
            docker images
            docker ps
-           docker build --no-cache hello/Dockerfile . -t ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+           docker build --no-cache -f hello/Dockerfile . -t ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
            docker push ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}

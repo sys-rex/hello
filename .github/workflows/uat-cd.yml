@@ -1,4 +1,4 @@
-name: Deploy to AKS Cluster
+name: UAT_Deploy_to_AKS_Cluster
 on:
   workflow_dispatch:
   # pull_request:
@@ -6,8 +6,8 @@ on:
   #   - main
   # to set dependency, this workflow will run when "docker_build_push_acr" workflow is completed.
   workflow_run:
-    workflows: ["docker_build_push_acr"]
-    branches: [main]
+    workflows: ["uat_docker_build_push_acr"]
+    branches: [uat]
     types: 
       - completed
 env:
@@ -21,7 +21,7 @@ jobs:
     #runs-on: [self-hosted, Windows, X64, mywinvm]
     
     steps:
-    - uses: actions/checkout@main
+    - uses: actions/checkout@uat
       # with:
       #   ref: main
       #   submodules: true
@@ -39,7 +39,7 @@ jobs:
    # Set the target AKS cluster.
     - uses: actions/checkout@v4
       with:
-        ref: main
+        ref: uat
         submodules: true
 
        # Set the target AKS cluster.
@@ -69,6 +69,7 @@ jobs:
       with:
         action: deploy
         #private-cluster: true
+        namespace: uat-ns
         manifests: |
-          manifests/ndeploy.yml
-          manifests/nservice.yml
+          manifests/uat-ndeploy.yml
+          manifests/uat-nservice.yml

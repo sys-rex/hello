@@ -1,15 +1,15 @@
 
-name: docker_build_push_acr
+name: uat_docker_build_push_acr
 on:
   workflow_dispatch:
   push:
-    branch: [ "main" ]
+    branch: [ "uat" ]
 env:
   IMAGE_NAME: pyhello
-  TAG: v2
+  TAG: uat_v2
 jobs:
-  docker_build_push_acr:
-    name: 'docker_build_push_acr'
+  uat_docker_build_push_acr:
+    name: 'uat_docker_build_push_acr'
     runs-on: [self-hosted, Linux, X64, custrunner]
 
     defaults:
@@ -66,14 +66,14 @@ jobs:
     - name: Update values.yaml
       uses: fjogeleit/yaml-update-action@main
       with:
-        valueFile: 'manifests/ndeploy.yml'
+        valueFile: 'manifests/uat-ndeploy.yml'
         #propertyPath: 'file.version'
         propertyPath: 'spec.template.spec.containers[0].image'
         value: ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
         #value: ${{ env.TAG }}
         # commitChange: true
-        branch: main
-        targetBranch: main
+        branch: uat
+        targetBranch: uat
         # masterBranchName: uat
 
     - run: |

@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: py-app
 spec:
   replicas: 2
   selector:
-    matchLabels: 
+    matchLabels:
       app: py-one
   template:
     metadata:
@@ -13,25 +13,7 @@ spec:
         app: py-one
     spec:
       containers:
-      - name: py-one
-        image: hubtet.azurecr.io/py/pyhello:v1
-        ports:
-        - containerPort: 5000
-        # env:
-        #   - name: TITLE
-        #     value: "Welcome to Azure Kubernetes Service (AKS)"
-
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata: 
-#   name: py-app
-# spec:
-#   type: ClusterIP
-#   ports:
-#   - port: 80
-#   selector:
-#     app: hw-one
-
-
-
+        - name: py-one
+          image: hubtet.azurecr.io/pyhello:v2
+          ports:
+            - containerPort: 5000

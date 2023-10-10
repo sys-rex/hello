@@ -16,26 +16,32 @@ jobs:
       run:
         shell: bash
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      # with:
-      #   ref: main
-      #   submodules: true
-
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
-
-    - name: Set up Docker Context for Buildx
-      id: buildx-context
-      run: |
-        docker context create builders
-
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
       with:
-        version: latest
-        endpoint: builders
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r requirements.txt
+    # - name: Checkout
+    #   uses: actions/checkout@v2
+    #   # with:
+    #   #   ref: main
+    #   #   submodules: true
+
+    # - name: Set up QEMU
+    #   uses: docker/setup-qemu-action@v1
+
+    # - name: Set up Docker Context for Buildx
+    #   id: buildx-context
+    #   run: |
+    #     docker context create builders
+
+    # - name: Set up Docker Buildx
+    #   id: buildx
+    #   uses: docker/setup-buildx-action@v1
+    #   with:
+    #     version: latest
+    #     endpoint: builders
 
     - name: 'Docker Login'
       uses: azure/docker-login@v1
@@ -49,5 +55,5 @@ jobs:
       with:
         push: true
         tags: ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} #tamopsgithubacr.azurecr.io/aspcoresample:${{ github.sha }}
-        file: hello/Dockerfile
+        file: Dockerfile
         #${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}

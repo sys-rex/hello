@@ -1,16 +1,28 @@
 
-name: docker_build_push_acr
+name: docker_build_push_acr_main
 on:
   workflow_dispatch:
-  push:
-    branch: [ "main" ]
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main/*'  
+  # push:
+  #   branch: [ "main" ]
+  #   tags:
+  #     - '*'
+
 env:
   IMAGE_NAME: pyhello
   TAG: v2
 jobs:
-  docker_build_push_acr:
-    name: 'docker_build_push_acr'
+  docker_build_push_acr_main:
+    if: github.event.pull_request.merged == true
+    name: 'docker_build_push_acr_main'
     runs-on: [self-hosted, Linux, X64, custrunner]
+
+    environment:
+      name: prod
 
     defaults:
       run:

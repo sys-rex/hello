@@ -6,7 +6,7 @@ on:
   #   - main
   # to set dependency, this workflow will run when "docker_build_push_acr" workflow is completed.
   workflow_run:
-    workflows: ["docker_build_push_acr"]
+    workflows: ["docker_build_push_acr_main"]
     branches: [main]
     types: 
       - completed
@@ -19,6 +19,7 @@ jobs:
     #runs-on: ubuntu-latest
     runs-on: [self-hosted, Linux, X64, custrunner]
     #runs-on: [self-hosted, Windows, X64, mywinvm]
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     
     steps:
     - uses: actions/checkout@main
